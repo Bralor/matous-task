@@ -1,6 +1,7 @@
 from typing import Dict
 
 import numpy
+import numpy.typing as npt
 import pytest
 
 from src.clusterer.clusterer import main, DataLoader
@@ -11,7 +12,7 @@ def test_dummy():
 
 
 @pytest.fixture
-def testing_sample() -> numpy.ndarray:
+def testing_sample() -> npt.NDArray[numpy.int64]:
     """
     Returns the two-dimensional array as a testing sample.
 
