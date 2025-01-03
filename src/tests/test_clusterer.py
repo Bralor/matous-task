@@ -6,11 +6,7 @@ import numpy
 import numpy.typing as npt
 import pytest
 
-from clusterer.clusterer import main, DataLoader
-
-
-def test_dummy():
-    assert main() == 1
+from clusterer.clusterer import DataLoader
 
 
 @pytest.fixture
