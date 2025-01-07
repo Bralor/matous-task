@@ -31,12 +31,12 @@ class DataLoader:
         """
         Create a DataLoader instance from a file with .NPY suffix.
 
-        :param source: Data in numpy array format.
-        :type source: str
-        :param suffix: extension of the supported file.
-        :type suffix: str
-        :return: the loaded numpy content,
-        :rtype: DataLoader
+        Args:
+            source (str): Path to the numpy file to be loaded.
+            suffix (str): Extension of the supported file. Defaults to '.npy'.
+
+        Returns:
+            DataLoader: An instance of DataLoader with loaded numpy content.
         """
         if not pathlib.Path(source).suffix == suffix:
             raise Exception("Input file does not have correct suffix.")
@@ -58,11 +58,12 @@ class DataLoader:
         """
         Create a DataLoader instance from a JSON file.
 
-        :param source: Path to the JSON file.
-        :type source: str,
-        :param suffix: extension of the supported file.
-        :type suffix: str
-        :return: DataLoader instance.
+        Args:
+            source (str): Path to the JSON file.
+            suffix (str): Extension of the supported file. Defaults to '.json'.
+
+        Returns:
+            DataLoader: An instance of DataLoader with loaded .json content.
         """
         if not pathlib.Path(source).suffix == suffix:
             raise Exception("Input file does not have correct suffix.")
