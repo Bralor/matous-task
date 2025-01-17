@@ -1,10 +1,12 @@
 import json
 import pathlib
+from abc import ABC, abstractmethod
 from typing import Any
-from typing_extensions import Self  # <3.11
 
 import numpy as np
 import numpy.typing as npt
+from sklearn.cluster import KMeans  # type: ignore
+from typing_extensions import Self  # <3.11
 
 
 class DataLoader:
@@ -80,3 +82,42 @@ class DataLoader:
             raise IOError(f"Invalid JSON format in file: {source}") from err
         else:
             return cls(data=np.array(data), filename=source)
+
+
+class ClusterBaseProcessor(ABC):
+    """
+    Abstract base class for clustering algorithms.
+
+    This class defines a common interface for clustering algorithms, including
+    methods:
+    - for initialization,
+    - fitting data,
+
+    All clustering processors must inherit from this class and implement
+    the required methods.
+    """
+
+    def __init__(self, **kwargs) -> None:
+        self.params = kwargs
+
+    @abstractmethod
+    def fit(self, data):
+        """
+        Fits the clustering algorithm to the given data.
+
+        Args:
+            data (array-like): The input data to fit the clustering algorithm.
+
+        Returns:
+            self: The fitted clustering processor instance.
+        """
+        pass
+
+
+class KMeansProcessor(ClusterBaseProcessor):
+    def __init__(self, **kwargs) -> None:
+        super().__init__(**kwargs)
+        self.model = KMeans(**kwargs)
+
+    def fit(self, data):
+        return self.model.fit_predict(data)
