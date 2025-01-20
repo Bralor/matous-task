@@ -1,0 +1,55 @@
+[build-system]
+requires = ["setuptools>=58.1.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "matous_clusterer"
+version = "0.0.1" # TODO: Temp value for the example
+description = "A command-line script for clustering the data."
+readme = { file = "README.md", content-type = "text/markdown" }
+authors = [
+    { name = "Matouš Holinka", email = "me@matousholinka.com" }
+]
+license = { text = "MIT" }
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.9"
+]
+requires-python = ">=3.9.9"
+
+[tool.setuptools]
+packages = ["clusterer"]
+package-dir = { "" = "src" }
+zip-safe = false
+
+[options.extras_require]
+testing = [
+    "pytest>=8.3.4",
+    "pytest-cov>=6.0.0",
+    "mypy>=1.14.0",
+    "pre-commit>=4.0.1",
+]
+
+[project.urls]
+repository = "https://github.com/Bralor/matous-task"
+
+[tool.pytest.ini_options]
+addopts = "--cov=clusterer"
+testpaths = [
+    "src/tests",
+]
+
+[tool.mypy]
+mypy_path = "src"
+check_untyped_defs = true
+disallow_any_generics = true
+show_error_codes = true
+strict_equality = true
+warn_redundant_casts = true
+warn_unreachable = true
+warn_unused_configs = true
+no_implicit_reexport = true
+
+[tool.coverage.report]
+show_missing = true
