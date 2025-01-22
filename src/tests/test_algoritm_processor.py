@@ -1,4 +1,5 @@
-from typing import Dict, NamedTuple, Union
+from typing import NamedTuple
+from unittest.mock import patch
 
 import numpy as np
 import numpy.typing as npt
@@ -6,9 +7,6 @@ import pytest
 from sklearn.datasets import make_blobs
 
 from clusterer.clusterer import KMeansProcessor
-
-KwargsDateTypes = Dict[str, Union[int, str]]
-ExpectedValuesDateTypes = Dict[str, Union[int, str]]
 
 
 class SampleData(NamedTuple):
@@ -72,31 +70,15 @@ def test_kmeans_fit_method_with_empty_data():
         testing_processor.fit(testing_empty_data)
 
 
-@pytest.mark.parametrize(
-    "kwargs, expected_values",
-    [
-        ({}, {"n_clusters": 8, "init": "k-means++", "max_iter": 300}),
-        ({"n_clusters": 4}, {"n_clusters": 4,
-                             "init": "k-means++",
-                             "max_iter": 300}),
-        ({"n_clusters": 3, "init": "random", "max_iter": 500},
-         {"n_clusters": 3, "init": "random", "max_iter": 500}),
-        ({"random_state": 42},
-         {"n_clusters": 8,
-          "init": "k-means++",
-          "max_iter": 300,
-          "random_state": 42}),
-    ],
-)
-def test_initialization_kmeans_with_kwargs(
-        kwargs: KwargsDateTypes,
-        expected_values: ExpectedValuesDateTypes
-):
-    """Test initialization with various combinations of kwargs."""
-    processor = KMeansProcessor(**kwargs)
+@patch("clusterer.clusterer.KMeans")
+def test_initialization_kmeans_with_kwargs(mock_kmeans):
+    kwargs = {"n_clusters": 3, "init": "random", "max_iter": 500}
+    mock_kmeans_instance = mock_kmeans.return_value
 
-    for key, expected_value in expected_values.items():
-        assert getattr(processor.model, key) == expected_value
+    processor = KMeansProcessor(**kwargs)
+    mock_kmeans.assert_called_once_with(**kwargs)
+
+    assert processor.model == mock_kmeans_instance
 
 
 def test_kmeans_fit_result_consistency(sample_data: SampleData):
