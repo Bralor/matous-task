@@ -101,15 +101,17 @@ class ClusterBaseProcessor(ABC):
         self.params = kwargs
 
     @abstractmethod
-    def fit(self, data):
+    def fit(self, data: npt.NDArray[int]) -> npt.NDArray[int]:
         """
-        Fits the clustering algorithm to the given data.
+        Fits the clustering algorithm to the given data and returns
+        cluster labels.
 
         Args:
-            data (array-like): The input data to fit the clustering algorithm.
+            data (npt.NDArray[int]): The input data to fit the clustering
+            algorithm.
 
         Returns:
-            self: The fitted clustering processor instance.
+            npt.NDArray[int]: An array of cluster labels for each data point.
         """
         pass
 
@@ -119,5 +121,5 @@ class KMeansProcessor(ClusterBaseProcessor):
         super().__init__(**kwargs)
         self.model = KMeans(**kwargs)
 
-    def fit(self, data):
+    def fit(self, data: npt.NDArray[int]) -> npt.NDArray[int]:
         return self.model.fit_predict(data)
