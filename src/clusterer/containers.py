@@ -10,14 +10,14 @@ class Container(containers.DeclarativeContainer):
 
     kmeans = providers.Factory(
             KMeansProcessor,
-            n_clusters=config.algorithm.hyperparameters.n_clusters,
-            random_state=config.algorithm.hyperparameters.random_state,
-            max_iter=config.algorithm.hyperparameters.max_iter
+            n_clusters=config.hyperparameters.n_clusters,
+            random_state=config.hyperparameters.random_state,
+            max_iter=config.hyperparameters.max_iter
     )
 
     # TODO: added more clustering algorithms
 
-    algorithm = providers.Selector(config.algorithm.name,
+    algorithm = providers.Selector(config.algorithm,
                                    kmeans=kmeans)
     # Source:
     # https://python-dependency-injector.ets-labs.org/
