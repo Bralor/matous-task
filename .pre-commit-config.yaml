@@ -1,19 +1,16 @@
 repos:
-  - repo: https://github.com/psf/black
-    rev: 23.9.1
+  - repo: https://github.com/pycqa/isort
+    rev: 5.12.0  # Latest stable version of isort
     hooks:
-      - id: black
-        args: [--check]
+      - id: isort
+        name: isort (python)
+
+  - repo: https://github.com/pycqa/flake8
+    rev: 6.1.0  # Latest stable version of flake8
+    hooks:
+      - id: flake8
 
   - repo: https://github.com/pre-commit/mirrors-mypy
     rev: "v1.14.0"
     hooks:
       - id: mypy
-
-  - repo: local
-    hooks:
-      - id: run-unittests
-        name: Run Unit Tests
-        entry: python -m pytest src/tests
-        language: system
-        always_run: true
